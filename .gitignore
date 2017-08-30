@@ -22,3 +22,4 @@ ltmain.sh
 .libs
 *.la
 *.lo
+m4
