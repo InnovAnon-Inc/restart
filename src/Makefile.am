@@ -1,2 +1,2 @@
-bin_PROGRAMS = hello
-hello_SOURCES = main.c
+lib_LIBRARIES = librestart.a
+librestart_a_SOURCES = restart.c restart.h
