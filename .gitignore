@@ -14,3 +14,11 @@ config.status
 .deps
 *.o
 *.a
+config.guess
+config.h.in~
+config.sub
+libtool
+ltmain.sh
+.libs
+*.la
+*.lo

@@ -1,2 +1,3 @@
-lib_LIBRARIES = librestart.a
-librestart_a_SOURCES = restart.c restart.h
+lib_LTLIBRARIES = librestart.la
+librestart_la_SOURCES = restart.c
+include_HEADERS	= restart.h
