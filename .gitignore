@@ -6,3 +6,6 @@ depcomp
 install-sh
 Makefile.in
 missing
+config.h
+stamp-h1
+Makefile
