@@ -13,3 +13,4 @@ config.log
 config.status
 .deps
 *.o
+*.a
