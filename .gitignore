@@ -23,3 +23,5 @@ ltmain.sh
 *.la
 *.lo
 m4
+ar-lib
+compile
