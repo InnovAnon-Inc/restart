@@ -1,3 +1,6 @@
+#ifndef _RESTART_H_
+#define _RESTART_H_
+
 #include <fcntl.h>
 #include <unistd.h>
 #include <sys/time.h>
@@ -23,3 +26,5 @@ ssize_t readtimed(int fd, void *buf, size_t nbyte, double seconds);
 int readwrite(int fromfd, int tofd);
 int readwriteblock(int fromfd, int tofd, char *buf, int size);
 int waitfdtimed(int fd, struct timeval end);
+
+#endif /* _RESTART_H_ */
