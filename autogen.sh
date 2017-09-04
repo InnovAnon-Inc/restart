@@ -12,7 +12,7 @@ autoreconf --install
 if [ $# -eq 0 ] ; then exit 0
 else
 	test "x$1" == xmake
-	./configure --prefix=$HOME/tools
+	./configure --prefix=$HOME
 	make
 	make install
 fi
