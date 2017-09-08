@@ -107,7 +107,7 @@ struct timeval add2currenttime(double seconds) {
 
    gettimeofday(&newtime, NULL);
    newtime.tv_sec += (int)seconds;
-   newtime.tv_usec += (int)((seconds - (int)seconds)*D_MILLION + 0.5f);
+   newtime.tv_usec += (int)((seconds - (int)seconds)*D_MILLION + 0.5);
    if (newtime.tv_usec >= MILLION) {
       newtime.tv_sec++;
       newtime.tv_usec -= MILLION;
@@ -151,8 +151,8 @@ ssize_t readblock(int fd, void *buf, size_t size) {
    return (ssize_t) totalbytes;
 }
 
-int readline(int fd, char *buf, int nbytes) {
-   int numread = 0;
+int readline(int fd, char *buf, size_t nbytes) {
+   size_t numread = 0;
    int returnval;
 
    while (numread < nbytes - 1) {
