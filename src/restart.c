@@ -115,12 +115,12 @@ struct timeval add2currenttime(double seconds) {
    return newtime;
 }
 
-int copyfile(int fromfd, int tofd) {
-   int bytesread;
-   int totalbytes = 0;
+size_t copyfile(int fromfd, int tofd) {
+   ssize_t bytesread;
+   size_t totalbytes = 0;
 
    while ((bytesread = readwrite(fromfd, tofd)) > 0)
-      totalbytes += bytesread;
+      totalbytes += (size_t) bytesread;
    return totalbytes;
 }
 
@@ -194,7 +194,7 @@ ssize_t readwrite(int fromfd, int tofd) {
       return -1;
    if (bytesread == 0)
       return 0;
-   if (r_write(tofd, buf, bytesread) < 0)
+   if (r_write(tofd, buf, (size_t) bytesread) < 0)
       return -1;
    return bytesread;
 }
@@ -203,7 +203,7 @@ ssize_t readwriteblock(int fromfd, int tofd, char *buf, size_t size) {
    ssize_t bytesread;
 
    bytesread = readblock(fromfd, buf, size);
-   if (bytesread != size)         /* can only be 0 or -1 */
+   if (bytesread != (ssize_t) size)         /* can only be 0 or -1 */
       return bytesread;
    return r_write(tofd, buf, size);
 }
