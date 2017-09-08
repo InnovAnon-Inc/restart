@@ -155,6 +155,8 @@ ssize_t readline(int fd, char *buf, size_t nbytes) {
    size_t numread = 0;
    ssize_t returnval;
 
+   /* TODO verify that size <= SSIZE_MAX */
+
    while (numread < nbytes - 1) {
       returnval = read(fd, buf + numread, (size_t) 1);
       if ((returnval == -1) && (errno == EINTR))
@@ -168,7 +170,7 @@ ssize_t readline(int fd, char *buf, size_t nbytes) {
       numread++;
       if (buf[numread-1] == '\n') {
          buf[numread] = '\0';
-         return numread;
+         return (ssize_t) numread;
       }
    }
    errno = EINVAL;
