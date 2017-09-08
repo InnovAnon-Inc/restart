@@ -85,17 +85,19 @@ ssize_t r_write(int fd, void *buf, size_t size) {
    ssize_t byteswritten;
    size_t totalbytes;
 
+   /* TODO verify that size <= SSIZE_MAX */
+
    for (bufp = buf, bytestowrite = size, totalbytes = 0;
         bytestowrite > 0;
-        bufp += byteswritten, bytestowrite -= byteswritten) {
+        bufp += byteswritten, bytestowrite -= (size_t) byteswritten) {
       byteswritten = write(fd, bufp, bytestowrite);
       if ((byteswritten) == -1 && (errno != EINTR))
          return -1;
       if (byteswritten == -1)
          byteswritten = 0;
-      totalbytes += byteswritten;
+      totalbytes += (size_t) byteswritten;
    }
-   return totalbytes;
+   return (ssize_t) totalbytes;
 }
 
 /* Utility functions */
@@ -127,7 +129,7 @@ ssize_t readblock(int fd, void *buf, size_t size) {
    ssize_t bytesread;
    size_t bytestoread;
    size_t totalbytes;
- 
+
    for (bufp = buf, bytestoread = size, totalbytes = 0;
         bytestoread > 0;
         bufp += bytesread, bytestoread -= bytesread) {
@@ -137,7 +139,7 @@ ssize_t readblock(int fd, void *buf, size_t size) {
       if (bytesread == 0) {
          errno = EINVAL;
          return -1;
-      }  
+      }
       if ((bytesread) == -1 && (errno != EINTR))
          return -1;
       if (bytesread == -1)
@@ -152,7 +154,7 @@ int readline(int fd, char *buf, int nbytes) {
    int returnval;
 
    while (numread < nbytes - 1) {
-      returnval = read(fd, buf + numread, 1);
+      returnval = read(fd, buf + numread, (size_t) 1);
       if ((returnval == -1) && (errno == EINTR))
          continue;
       if ((returnval == 0) && (numread == 0))
@@ -165,8 +167,8 @@ int readline(int fd, char *buf, int nbytes) {
       if (buf[numread-1] == '\n') {
          buf[numread] = '\0';
          return numread;
-      }  
-   }   
+      }
+   }
    errno = EINVAL;
    return -1;
 }
@@ -206,11 +208,11 @@ int waitfdtimed(int fd, struct timeval end) {
    fd_set readset;
    int retval;
    struct timeval timeout;
- 
+
    if ((fd < 0) || (fd >= FD_SETSIZE)) {
       errno = EINVAL;
       return -1;
-   }  
+   }
    FD_ZERO(&readset);
    FD_SET(fd, &readset);
    if (gettimeout(end, &timeout) == -1)
