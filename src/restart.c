@@ -151,9 +151,9 @@ ssize_t readblock(int fd, void *buf, size_t size) {
    return (ssize_t) totalbytes;
 }
 
-int readline(int fd, char *buf, size_t nbytes) {
+ssize_t readline(int fd, char *buf, size_t nbytes) {
    size_t numread = 0;
-   int returnval;
+   ssize_t returnval;
 
    while (numread < nbytes - 1) {
       returnval = read(fd, buf + numread, (size_t) 1);
