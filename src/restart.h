@@ -25,10 +25,10 @@ pid_t r_wait(int *stat_loc);
 pid_t r_waitpid(pid_t pid, int *stat_loc, int options);
 ssize_t r_write(int fd, void *buf, size_t size);
 ssize_t readblock(int fd, void *buf, size_t size);
-ssize_t readline(int fd, char *buf, ssize_t nbytes);
+ssize_t readline(int fd, char *buf, size_t nbytes);
 ssize_t readtimed(int fd, void *buf, size_t nbyte, double seconds);
-int readwrite(int fromfd, int tofd);
-int readwriteblock(int fromfd, int tofd, char *buf, int size);
+ssize_t readwrite(int fromfd, int tofd);
+ssize_t readwriteblock(int fromfd, int tofd, char *buf, size_t size);
 int waitfdtimed(int fd, struct timeval end);
 
 #ifdef __cplusplus

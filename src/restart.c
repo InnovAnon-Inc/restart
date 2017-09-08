@@ -186,11 +186,11 @@ ssize_t readtimed(int fd, void *buf, size_t nbyte, double seconds) {
    return r_read(fd, buf, nbyte);
 }
 
-int readwrite(int fromfd, int tofd) {
+ssize_t readwrite(int fromfd, int tofd) {
    char buf[BLKSIZE];
-   int bytesread;
+   ssize_t bytesread;
 
-   if ((bytesread = r_read(fromfd, buf, BLKSIZE)) < 0)
+   if ((bytesread = r_read(fromfd, buf, (size_t) BLKSIZE)) < 0)
       return -1;
    if (bytesread == 0)
       return 0;
@@ -199,8 +199,8 @@ int readwrite(int fromfd, int tofd) {
    return bytesread;
 }
 
-int readwriteblock(int fromfd, int tofd, char *buf, int size) {
-   int bytesread;
+ssize_t readwriteblock(int fromfd, int tofd, char *buf, size_t size) {
+   ssize_t bytesread;
 
    bytesread = readblock(fromfd, buf, size);
    if (bytesread != size)         /* can only be 0 or -1 */
