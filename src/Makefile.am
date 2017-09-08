@@ -12,10 +12,10 @@ librestart_la_CFLAGS = -Wextra -pedantic -Werror -Wdouble-promotion \
                    -Wundef -Wshadow -Wunsafe-loop-optimizations \
                    -Wbad-function-cast -Wcast-qual -Wcast-align \
                    -Wwrite-strings -Wconversion -Wjump-misses-init \
-                   -Wlogical-op -Waggregate-return \
+                   -Wlogical-op \
                    -Wno-aggressive-loop-optimizations -Wstrict-prototypes \
                    -Wmissing-prototypes -Wmissing-declarations -Wpacked \
                    -Wpadded -Wredundant-decls -Wnested-externs -Winline \
                    -Wvector-operation-performance -Wdisabled-optimization \
-                   -Wstack-protector -Wunsuffixed-float-constants \
+                   -Wstack-protector \
                    -Winit-self
