@@ -239,6 +239,7 @@ ssize_t readwriteblock(int fromfd, int tofd, char *restrict buf, size_t size) {
    return r_write(tofd, buf, size);
 }
 
+TODO(is waitfdtimed() a leaf?)
 __attribute__ ((nothrow, warn_unused_result))
 int waitfdtimed(int fd, struct timeval end) {
    fd_set readset;
