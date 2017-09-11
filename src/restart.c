@@ -6,12 +6,15 @@
 #include <sys/time.h>
 #include <sys/wait.h>
 #include "restart.h"
+#ifndef _POSIX_PIPE_BUF
+#define _POSIX_PIPE_BUF (512)
+#endif
 #ifndef PIPE_BUF
 #define PIPE_BUF _POSIX_PIPE_BUF
 #endif
 #define BLKSIZE PIPE_BUF
-#define MILLION 1000000L
-#define D_MILLION 1000000.0
+#define MILLION (1000000L)
+#define D_MILLION (1000000.0)
 
 /* Private functions */
 
