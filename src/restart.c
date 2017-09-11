@@ -80,7 +80,7 @@ __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 pid_t r_wait(int *restrict stat_loc) {
    pid_t retval;
    do retval = wait (stat_loc);
-   while_check (retval == -1, EINTR)) ;
+   while_check (retval == -1, EINTR) ;
    return retval;
 }
 
@@ -175,7 +175,7 @@ ssize_t readline(int fd, char *restrict buf, size_t nbytes) {
 
    /* TODO verify that size <= SSIZE_MAX */
 
-   while (__builtin_expect (numread < nbytes - 1, true)) { /* (see below) */
+   while_expect (numread < nbytes - 1) { /* (see below) */
       returnval = read(fd, buf + numread, (size_t) 1);
       error_check ((returnval == -1) && (errno == EINTR))
          continue;
