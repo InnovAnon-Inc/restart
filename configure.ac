@@ -19,4 +19,6 @@ AC_CHECK_LIB([stdlib],[gettimeofday,select,sleep])
 
 INNOVANON_WARNINGS([])
 
+AM_CPPFLAGS = -D__STDC_INT64__
+
 AC_OUTPUT
