@@ -8,10 +8,10 @@
 
 #include "restart.h"
 
+/* http://pubs.opengroup.org/onlinepubs/007904975/basedefs/limits.h.html */
 #ifndef _POSIX_PIPE_BUF
 #define _POSIX_PIPE_BUF (512)
 #endif
-
 #ifndef PIPE_BUF
 #define PIPE_BUF _POSIX_PIPE_BUF
 #endif
