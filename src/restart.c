@@ -269,7 +269,10 @@ int waitfdtimed(fd_t fd, struct timeval end) {
       return -1;
    }
    FD_ZERO(&readset);
-   FD_SET((unsigned int) fd, (fd_set *) &readset);
+   #pragma GCC diagnostic push "-Wsign-conversion"
+   #pragma GCC diagnostic warning "-Wsign-conversion"
+   FD_SET(fd, &readset);
+   #pragma GCC diagnostic pop
    error_check (gettimeout(end, &timeout) == -1)
       return -1;
    do {
