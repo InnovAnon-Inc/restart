@@ -1,3 +1,7 @@
+#if HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
@@ -6,7 +10,7 @@
 #include <sys/time.h>
 #include <sys/wait.h>
 
-#include "restart.h"
+#include <restart.h>
 
 /* http://pubs.opengroup.org/onlinepubs/007904975/basedefs/limits.h.html */
 #ifndef _POSIX_PIPE_BUF
