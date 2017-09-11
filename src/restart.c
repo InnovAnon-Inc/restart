@@ -12,8 +12,9 @@
 
 /* Private functions */
 
+__attribute__ ((nonnull (2), nothrow, warn_unused_result))
 static int gettimeout(struct timeval end,
-                               struct timeval *timeoutp) {
+                               struct timeval *restrict timeoutp) {
    gettimeofday(timeoutp, NULL);
    timeoutp->tv_sec = end.tv_sec - timeoutp->tv_sec;
    timeoutp->tv_usec = end.tv_usec - timeoutp->tv_usec;
@@ -25,7 +26,7 @@ static int gettimeout(struct timeval end,
       timeoutp->tv_sec--;
       timeoutp->tv_usec += MILLION;
    }
-   if ((timeoutp->tv_sec < 0) ||
+   error_check ((timeoutp->tv_sec < 0) ||
        ((timeoutp->tv_sec == 0) && (timeoutp->tv_usec == 0))) {
       errno = ETIME;
       return -1;
@@ -35,52 +36,65 @@ static int gettimeout(struct timeval end,
 
 /* Restart versions of traditional functions */
 
+__attribute__ ((nothrow, warn_unused_result))
 int r_close(int fildes) {
    int retval;
-   while (retval = close(fildes), retval == -1 && errno == EINTR) ;
+   do retval = close (fildes);
+   while_check (retval == -1, EINTR) ;
    return retval;
 }
 
+__attribute__ ((nothrow, warn_unused_result))
 int r_dup2(int fildes, int fildes2) {
    int retval;
-   while (retval = dup2(fildes, fildes2), retval == -1 && errno == EINTR) ;
+   do retval = dup2 (fildes, fildes2);
+   while_check (retval == -1, EINTR) ;
    return retval;
 }
 
-
-int r_open2(const char *path, int oflag) {
+__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+int r_open2(const char *restrict path, int oflag) {
    int retval;
-   while (retval = open(path, oflag), retval == -1 && errno == EINTR) ;
+   do retval = open (path, oflag);
+   while_check (retval == -1, EINTR) ;
    return retval;
 }
 
-int r_open3(const char *path, int oflag, mode_t mode) {
+__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+int r_open3(const char *restrict path, int oflag, mode_t mode) {
    int retval;
-   while (retval = open(path, oflag, mode), retval == -1 && errno == EINTR) ;
+   do retval = open (path, oflag, mode);
+   while_check (retval == -1, EINTR) ;
    return retval;
 }
 
-ssize_t r_read(int fd, void *buf, size_t size) {
+__attribute__ ((nonnull (2), nothrow, warn_unused_result))
+ssize_t r_read(int fd, void *restrict buf, size_t size) {
    ssize_t retval;
-   while (retval = read(fd, buf, size), retval == -1 && errno == EINTR) ;
+   do retval = read(fd, buf, size);
+   while_check (retval == -1, EINTR) ;
    return retval;
 }
 
-pid_t r_wait(int *stat_loc) {
+__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+pid_t r_wait(int *restrict stat_loc) {
    pid_t retval;
-   while (((retval = wait(stat_loc)) == -1) && (errno == EINTR)) ;
+   do retval = wait (stat_loc);
+   while_check (retval == -1, EINTR)) ;
    return retval;
 }
 
-pid_t r_waitpid(pid_t pid, int *stat_loc, int options) {
+__attribute__ ((nonnull (2), nothrow, warn_unused_result))
+pid_t r_waitpid(pid_t pid, int *restrict stat_loc, int options) {
    pid_t retval;
-   while (((retval = waitpid(pid, stat_loc, options)) == -1) &&
-           (errno == EINTR)) ;
+   do retval = waitpid (pid, stat_loc, options);
+   while_check (retval == -1, EINTR) ;
    return retval;
 }
 
-ssize_t r_write(int fd, void *buf, size_t size) {
-   char *bufp;
+__attribute__ ((nonnull (2), nothrow, warn_unused_result))
+ssize_t r_write(int fd, void *restrict buf, size_t size) {
+   char *restrict bufp;
    size_t bytestowrite;
    ssize_t byteswritten;
    size_t totalbytes;
@@ -91,9 +105,9 @@ ssize_t r_write(int fd, void *buf, size_t size) {
         bytestowrite > 0;
         bufp += byteswritten, bytestowrite -= (size_t) byteswritten) {
       byteswritten = write(fd, bufp, bytestowrite);
-      if ((byteswritten) == -1 && (errno != EINTR))
+      error_check ((byteswritten) == -1 && (errno != EINTR))
          return -1;
-      if (byteswritten == -1)
+      error_check (byteswritten == -1) /* errno == EINTR */
          byteswritten = 0;
       totalbytes += (size_t) byteswritten;
    }
@@ -102,6 +116,7 @@ ssize_t r_write(int fd, void *buf, size_t size) {
 
 /* Utility functions */
 
+__attribute__ ((nothrow, warn_unused_result))
 struct timeval add2currenttime(double seconds) {
    struct timeval newtime;
 
@@ -115,6 +130,7 @@ struct timeval add2currenttime(double seconds) {
    return newtime;
 }
 
+__attribute__ ((nothrow, warn_unused_result))
 size_t copyfile(int fromfd, int tofd) {
    ssize_t bytesread;
    size_t totalbytes = 0;
@@ -124,8 +140,9 @@ size_t copyfile(int fromfd, int tofd) {
    return totalbytes;
 }
 
-ssize_t readblock(int fd, void *buf, size_t size) {
-   char *bufp;
+__attribute__ ((nonnull (2), nothrow, warn_unused_result))
+ssize_t readblock(int fd, void *restrict buf, size_t size) {
+   char *restrict bufp;
    ssize_t bytesread;
    size_t bytestoread;
    size_t totalbytes;
@@ -138,101 +155,107 @@ ssize_t readblock(int fd, void *buf, size_t size) {
       bytesread = read(fd, bufp, bytestoread);
       if ((bytesread == 0) && (totalbytes == 0))
          return 0;
-      if (bytesread == 0) {
+      error_check (bytesread == 0) {
          errno = EINVAL;
          return -1;
       }
-      if ((bytesread) == -1 && (errno != EINTR))
+      error_check ((bytesread) == -1 && (errno != EINTR))
          return -1;
-      if (bytesread == -1)
+      error_check (bytesread == -1) /* errno == EINTR */
          bytesread = 0;
       totalbytes += (size_t) bytesread;
    }
    return (ssize_t) totalbytes;
 }
 
-ssize_t readline(int fd, char *buf, size_t nbytes) {
+__attribute__ ((nonnull (2), nothrow, warn_unused_result))
+ssize_t readline(int fd, char *restrict buf, size_t nbytes) {
    size_t numread = 0;
    ssize_t returnval;
 
    /* TODO verify that size <= SSIZE_MAX */
 
-   while (numread < nbytes - 1) {
+   while (__builtin_expect (numread < nbytes - 1, true)) { /* (see below) */
       returnval = read(fd, buf + numread, (size_t) 1);
-      if ((returnval == -1) && (errno == EINTR))
+      error_check ((returnval == -1) && (errno == EINTR))
          continue;
       if ((returnval == 0) && (numread == 0))
          return 0;
       if (returnval == 0)
          break;
-      if (returnval == -1)
+      error_check (returnval == -1)
          return -1;
       numread++;
       if (buf[numread-1] == '\n') {
          buf[numread] = '\0';
          return (ssize_t) numread;
       }
-   }
+   } /* expect true, because exiting loop like that is error-case */
    errno = EINVAL;
    return -1;
 }
 
-ssize_t readtimed(int fd, void *buf, size_t nbyte, double seconds) {
+__attribute__ ((nonnull (2), nothrow, warn_unused_result))
+ssize_t readtimed(int fd, void *restrict buf, size_t nbyte, double seconds) {
    struct timeval timedone;
 
    timedone = add2currenttime(seconds);
-   if (waitfdtimed(fd, timedone) == -1)
+   error_check (waitfdtimed(fd, timedone) == -1)
       return (ssize_t)(-1);
    return r_read(fd, buf, nbyte);
 }
 
+__attribute__ ((nothrow, warn_unused_result))
 ssize_t readwrite(int fromfd, int tofd) {
    char buf[BLKSIZE];
    ssize_t bytesread;
 
-   if ((bytesread = r_read(fromfd, buf, (size_t) BLKSIZE)) < 0)
+   error_check ((bytesread = r_read(fromfd, buf, (size_t) BLKSIZE)) < 0)
       return -1;
    if (bytesread == 0)
       return 0;
-   if (r_write(tofd, buf, (size_t) bytesread) < 0)
+   error_check (r_write(tofd, buf, (size_t) bytesread) < 0)
       return -1;
    return bytesread;
 }
 
-ssize_t readwriteblock(int fromfd, int tofd, char *buf, size_t size) {
+__attribute__ ((nonnull (3), nothrow, warn_unused_result))
+ssize_t readwriteblock(int fromfd, int tofd, char *restrict buf, size_t size) {
    ssize_t bytesread;
 
    bytesread = readblock(fromfd, buf, size);
-   if (bytesread != (ssize_t) size)         /* can only be 0 or -1 */
+   error_check (bytesread != (ssize_t) size)         /* can only be 0 or -1 */
       return bytesread;
    return r_write(tofd, buf, size);
 }
 
+__attribute__ ((nothrow, warn_unused_result))
 int waitfdtimed(int fd, struct timeval end) {
    fd_set readset;
    int retval;
    struct timeval timeout;
 
-   if ((fd < 0) || (fd >= FD_SETSIZE)) {
+   error_check ((fd < 0) || (fd >= FD_SETSIZE)) {
       errno = EINVAL;
       return -1;
    }
    FD_ZERO(&readset);
    FD_SET(fd, &readset);
-   if (gettimeout(end, &timeout) == -1)
+   error_check (gettimeout(end, &timeout) == -1)
       return -1;
-   while (((retval = select(fd+1, &readset, NULL, NULL, &timeout)) == -1)
-           && (errno == EINTR)) {
-      if (gettimeout(end, &timeout) == -1)
+   while_check (
+      (retval = select(fd+1, &readset, NULL, NULL, &timeout)) == -1,
+      EINTR) {
+      error_check (gettimeout(end, &timeout) == -1)
          return -1;
       FD_ZERO(&readset);
       FD_SET(fd, &readset);
    }
-   if (retval == 0) {
+   error_check (retval == 0) {
       errno = ETIME;
       return -1;
    }
-   if (retval == -1)
+   error_check (retval == -1)
       return -1;
    return 0;
 }
