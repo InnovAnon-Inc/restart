@@ -270,7 +270,7 @@ int waitfdtimed(fd_t fd, struct timeval end) {
    }
    FD_ZERO(&readset);
    #pragma GCC diagnostic push "-Wsign-conversion"
-   #pragma GCC diagnostic warning "-Wsign-conversion"
+   #pragma GCC diagnostic ignored "-Wsign-conversion"
    FD_SET(fd, &readset);
    #pragma GCC diagnostic pop
    error_check (gettimeout(end, &timeout) == -1)
