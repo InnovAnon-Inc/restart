@@ -2,7 +2,7 @@ lib_LTLIBRARIES = librestart.la
 librestart_la_SOURCES = restart.c
 include_HEADERS = restart.h
 
-librestart_la_CFLAGS = -Wextra -pedantic -Werror -Wdouble-promotion \
+librestart_la_CFLAGS = -Wextra -pedantic -ansi -Werror -Wdouble-promotion \
                    -Wformat=2 -Wswitch-default -Wswitch-enum -Wuninitialized \
                    -Wstrict-aliasing=1 -Wstrict-overflow=5 \
                    -Wsuggest-attribute=pure -Wsuggest-attribute=const \
