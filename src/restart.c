@@ -47,7 +47,7 @@ static int gettimeout(struct timeval end,
 /* Restart versions of traditional functions */
 
 __attribute__ ((leaf, nothrow, warn_unused_result))
-int r_close(int fildes) {
+int r_close(fd_t fildes) {
    int retval;
    do retval = close (fildes);
    while_echeck (retval == -1, EINTR) ;
@@ -55,31 +55,31 @@ int r_close(int fildes) {
 }
 
 __attribute__ ((leaf, nothrow, warn_unused_result))
-int r_dup2(int fildes, int fildes2) {
-   int retval;
+fd_t r_dup2(fd_t fildes, fd_t fildes2) {
+   fd_t retval;
    do retval = dup2 (fildes, fildes2);
    while_echeck (retval == -1, EINTR) ;
    return retval;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
-int r_open2(const char *restrict path, int oflag) {
-   int retval;
+fd_t r_open2(const char *restrict path, int oflag) {
+   fd_t retval;
    do retval = open (path, oflag);
    while_echeck (retval == -1, EINTR) ;
    return retval;
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
-int r_open3(const char *restrict path, int oflag, mode_t mode) {
-   int retval;
+fd_t r_open3(const char *restrict path, int oflag, mode_t mode) {
+   fd_t retval;
    do retval = open (path, oflag, mode);
    while_echeck (retval == -1, EINTR) ;
    return retval;
 }
 
 __attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
-ssize_t r_read(int fd, void *restrict buf, size_t size) {
+ssize_t r_read(fd_t fd, void *restrict buf, size_t size) {
    ssize_t retval;
    do retval = read(fd, buf, size);
    while_echeck (retval == -1, EINTR) ;
@@ -103,7 +103,7 @@ pid_t r_waitpid(pid_t pid, int *restrict stat_loc, int options) {
 }
 
 __attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
-ssize_t r_write(int fd, void *restrict buf, size_t size) {
+ssize_t r_write(fd_t fd, void *restrict buf, size_t size) {
    char *restrict bufp;
    size_t bytestowrite;
    ssize_t byteswritten;
@@ -141,7 +141,7 @@ struct timeval add2currenttime(double seconds) {
 }
 
 __attribute__ ((nothrow, warn_unused_result))
-size_t copyfile(int fromfd, int tofd) {
+size_t copyfile(fd_t fromfd, fd_t tofd) {
    ssize_t bytesread;
    size_t totalbytes = 0;
 
@@ -151,7 +151,7 @@ size_t copyfile(int fromfd, int tofd) {
 }
 
 __attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
-ssize_t readblock(int fd, void *restrict buf, size_t size) {
+ssize_t readblock(fd_t fd, void *restrict buf, size_t size) {
    char *restrict bufp;
    ssize_t bytesread;
    size_t bytestoread;
@@ -179,7 +179,7 @@ ssize_t readblock(int fd, void *restrict buf, size_t size) {
 }
 
 __attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
-ssize_t readline(int fd, char *restrict buf, size_t nbytes) {
+ssize_t readline(fd_t fd, char *restrict buf, size_t nbytes) {
    size_t numread = 0;
    ssize_t returnval;
 
@@ -207,7 +207,7 @@ ssize_t readline(int fd, char *restrict buf, size_t nbytes) {
 
 __attribute__ ((nonnull (2), nothrow, warn_unused_result))
 ssize_t readtimed(
-   int fd,
+   fd_t fd,
    void *restrict buf, size_t nbyte,
    double seconds) {
    struct timeval timedone;
@@ -219,7 +219,7 @@ ssize_t readtimed(
 }
 
 __attribute__ ((nothrow, warn_unused_result))
-ssize_t readwrite(int fromfd, int tofd) {
+ssize_t readwrite(fd_t fromfd, fd_t tofd) {
    char buf[BLKSIZE];
    ssize_t bytesread;
 
@@ -234,7 +234,7 @@ ssize_t readwrite(int fromfd, int tofd) {
 
 __attribute__ ((nonnull (3), nothrow, warn_unused_result))
 ssize_t readwriteblock(
-   int fromfd, int tofd,
+   fd_t fromfd, fd_t tofd,
    char *restrict buf, size_t size) {
    ssize_t bytesread;
 
@@ -246,9 +246,9 @@ ssize_t readwriteblock(
 
 TODO(is waitfdtimed() a leaf?)
 __attribute__ ((nothrow, warn_unused_result))
-int waitfdtimed(int fd, struct timeval end) {
+int waitfdtimed(fd_t fd, struct timeval end) {
    fd_set readset;
-   int retval;
+   fd_t retval;
    struct timeval timeout;
 
    error_check ((fd < 0) || (fd >= FD_SETSIZE)) {
