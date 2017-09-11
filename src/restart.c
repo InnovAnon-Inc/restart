@@ -40,7 +40,7 @@ __attribute__ ((nothrow, warn_unused_result))
 int r_close(int fildes) {
    int retval;
    do retval = close (fildes);
-   while_check (retval == -1, EINTR) ;
+   while_echeck (retval == -1, EINTR) ;
    return retval;
 }
 
@@ -48,7 +48,7 @@ __attribute__ ((nothrow, warn_unused_result))
 int r_dup2(int fildes, int fildes2) {
    int retval;
    do retval = dup2 (fildes, fildes2);
-   while_check (retval == -1, EINTR) ;
+   while_echeck (retval == -1, EINTR) ;
    return retval;
 }
 
@@ -56,7 +56,7 @@ __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 int r_open2(const char *restrict path, int oflag) {
    int retval;
    do retval = open (path, oflag);
-   while_check (retval == -1, EINTR) ;
+   while_echeck (retval == -1, EINTR) ;
    return retval;
 }
 
@@ -64,7 +64,7 @@ __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 int r_open3(const char *restrict path, int oflag, mode_t mode) {
    int retval;
    do retval = open (path, oflag, mode);
-   while_check (retval == -1, EINTR) ;
+   while_echeck (retval == -1, EINTR) ;
    return retval;
 }
 
@@ -72,7 +72,7 @@ __attribute__ ((nonnull (2), nothrow, warn_unused_result))
 ssize_t r_read(int fd, void *restrict buf, size_t size) {
    ssize_t retval;
    do retval = read(fd, buf, size);
-   while_check (retval == -1, EINTR) ;
+   while_echeck (retval == -1, EINTR) ;
    return retval;
 }
 
@@ -80,7 +80,7 @@ __attribute__ ((nonnull (1), nothrow, warn_unused_result))
 pid_t r_wait(int *restrict stat_loc) {
    pid_t retval;
    do retval = wait (stat_loc);
-   while_check (retval == -1, EINTR) ;
+   while_echeck (retval == -1, EINTR) ;
    return retval;
 }
 
@@ -88,7 +88,7 @@ __attribute__ ((nonnull (2), nothrow, warn_unused_result))
 pid_t r_waitpid(pid_t pid, int *restrict stat_loc, int options) {
    pid_t retval;
    do retval = waitpid (pid, stat_loc, options);
-   while_check (retval == -1, EINTR) ;
+   while_echeck (retval == -1, EINTR) ;
    return retval;
 }
 
@@ -243,7 +243,7 @@ int waitfdtimed(int fd, struct timeval end) {
    FD_SET(fd, &readset);
    error_check (gettimeout(end, &timeout) == -1)
       return -1;
-   while_check (
+   while_echeck (
       (retval = select(fd+1, &readset, NULL, NULL, &timeout)) == -1,
       EINTR) {
       error_check (gettimeout(end, &timeout) == -1)
