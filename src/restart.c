@@ -259,14 +259,21 @@ int waitfdtimed(fd_t fd, struct timeval end) {
    FD_SET(fd, &readset);
    error_check (gettimeout(end, &timeout) == -1)
       return -1;
+   do {
+      retval = select(fd+1, &readset, NULL, NULL, &timeout);
+      error_check (retval == -1)
+         if (errno == EINTR)
+            continue;
+   /*
    while_echeck (
       (retval = select(fd+1, &readset, NULL, NULL, &timeout)) == -1,
       EINTR) {
+   */
       error_check (gettimeout(end, &timeout) == -1)
          return -1;
       FD_ZERO(&readset);
       FD_SET(fd, &readset);
-   }
+   } while (true);
    error_check (retval == 0) {
       errno = ETIME;
       return -1;
@@ -274,4 +281,13 @@ int waitfdtimed(fd_t fd, struct timeval end) {
    error_check (retval == -1)
       return -1;
    return 0;
+}
+
+__attribute__ ((leaf, nothrow))
+void r_sleep (unsigned int seconds) {
+   unsigned int left = seconds;
+   if (left == 0) return;
+   do left = sleep (left);
+   while_check (left != 0) ;
+   return left;
 }
