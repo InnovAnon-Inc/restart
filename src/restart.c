@@ -269,7 +269,7 @@ int waitfdtimed(fd_t fd, struct timeval end) {
       return -1;
    }
    FD_ZERO(&readset);
-   FD_SET((unsigned int) fd, &readset);
+   FD_SET((unsigned int) fd, (fd_set *) &readset);
    error_check (gettimeout(end, &timeout) == -1)
       return -1;
    do {
