@@ -63,7 +63,7 @@ fd_t r_dup2(fd_t fildes, fd_t fildes2) {
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
-fd_t r_open2(const char *restrict path, int oflag) {
+fd_t r_open2(const char path[], int oflag) {
    fd_t retval;
    do retval = open (path, oflag);
    while_echeck (retval == -1, EINTR) ;
@@ -71,7 +71,7 @@ fd_t r_open2(const char *restrict path, int oflag) {
 }
 
 __attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
-fd_t r_open3(const char *restrict path, int oflag, mode_t mode) {
+fd_t r_open3(const char path[], int oflag, mode_t mode) {
    fd_t retval;
    do retval = open (path, oflag, mode);
    while_echeck (retval == -1, EINTR) ;
@@ -179,7 +179,7 @@ ssize_t readblock(fd_t fd, void *restrict buf, size_t size) {
 }
 
 __attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
-ssize_t readline(fd_t fd, char *restrict buf, size_t nbytes) {
+ssize_t readline(fd_t fd, char buf[], size_t nbytes) {
    size_t numread = 0;
    ssize_t returnval;
 
@@ -235,7 +235,7 @@ ssize_t readwrite(fd_t fromfd, fd_t tofd) {
 __attribute__ ((nonnull (3), nothrow, warn_unused_result))
 ssize_t readwriteblock(
    fd_t fromfd, fd_t tofd,
-   char *restrict buf, size_t size) {
+   char buf[], size_t size) {
    ssize_t bytesread;
 
    bytesread = readblock(fromfd, buf, size);
