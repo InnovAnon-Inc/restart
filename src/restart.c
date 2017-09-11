@@ -109,7 +109,7 @@ ssize_t r_write(int fd, void *restrict buf, size_t size) {
    ssize_t byteswritten;
    size_t totalbytes;
 
-   /* TODO verify that size <= SSIZE_MAX */
+   TODO (verify that size <= SSIZE_MAX)
 
    for (bufp = buf, bytestowrite = size, totalbytes = 0;
         bytestowrite > 0;
@@ -157,7 +157,7 @@ ssize_t readblock(int fd, void *restrict buf, size_t size) {
    size_t bytestoread;
    size_t totalbytes;
 
-   /* TODO verify that size <= SSIZE_MAX */
+   TODO (verify that size <= SSIZE_MAX)
 
    for (bufp = buf, bytestoread = size, totalbytes = 0;
         bytestoread > 0;
@@ -183,7 +183,7 @@ ssize_t readline(int fd, char *restrict buf, size_t nbytes) {
    size_t numread = 0;
    ssize_t returnval;
 
-   /* TODO verify that size <= SSIZE_MAX */
+   TODO (verify that size <= SSIZE_MAX)
 
    while_expect (numread < nbytes - 1) { /* (see below) */
       returnval = read(fd, buf + numread, (size_t) 1);
@@ -206,7 +206,10 @@ ssize_t readline(int fd, char *restrict buf, size_t nbytes) {
 }
 
 __attribute__ ((nonnull (2), nothrow, warn_unused_result))
-ssize_t readtimed(int fd, void *restrict buf, size_t nbyte, double seconds) {
+ssize_t readtimed(
+   int fd,
+   void *restrict buf, size_t nbyte,
+   double seconds) {
    struct timeval timedone;
 
    timedone = add2currenttime(seconds);
@@ -230,11 +233,13 @@ ssize_t readwrite(int fromfd, int tofd) {
 }
 
 __attribute__ ((nonnull (3), nothrow, warn_unused_result))
-ssize_t readwriteblock(int fromfd, int tofd, char *restrict buf, size_t size) {
+ssize_t readwriteblock(
+   int fromfd, int tofd,
+   char *restrict buf, size_t size) {
    ssize_t bytesread;
 
    bytesread = readblock(fromfd, buf, size);
-   error_check (bytesread != (ssize_t) size)         /* can only be 0 or -1 */
+   error_check (bytesread != (ssize_t) size) /* can only be 0 or -1 */
       return bytesread;
    return r_write(tofd, buf, size);
 }
