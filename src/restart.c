@@ -130,13 +130,19 @@ ssize_t r_write(fd_t fd, void *restrict buf, size_t size) {
 
 /* Utility functions */
 
+   #pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Waggregate-return"
 __attribute__ ((leaf, nothrow, warn_unused_result))
 struct timeval add2currenttime(double seconds) {
+   #pragma GCC diagnostic pop
    struct timeval newtime;
 
    gettimeofday(&newtime, NULL);
    newtime.tv_sec += (int)seconds;
+   #pragma GCC diagnostic push
+   #pragma GCC diagnostic ignored "-Wunsuffixed-float-constants"
    newtime.tv_usec += (int)((seconds - (int)seconds)*D_MILLION + 0.5);
+   #pragma GCC diagnostic pop
    if (newtime.tv_usec >= MILLION) {
       newtime.tv_sec++;
       newtime.tv_usec -= MILLION;
@@ -216,7 +222,10 @@ ssize_t readtimed(
    double seconds) {
    struct timeval timedone;
 
+   #pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Waggregate-return"
    timedone = add2currenttime(seconds);
+   #pragma GCC diagnostic pop
    error_check (waitfdtimed(fd, timedone) == -1)
       return (ssize_t)(-1);
    return r_read(fd, buf, nbyte);

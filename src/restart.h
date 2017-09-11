@@ -16,8 +16,11 @@ extern "C" {
 #define ETIME ETIMEDOUT
 #endif
 
+	#pragma GCC diagnostic push
+	#pragma GCC diagnostic ignored "-Waggregate-return"
 struct timeval add2currenttime(double seconds)
 __attribute__ ((leaf, nothrow, warn_unused_result)) ;
+	#pragma GCC diagnostic pop
 
 size_t copyfile(fd_t fromfd, fd_t tofd)
 __attribute__ ((nothrow, warn_unused_result)) ;
