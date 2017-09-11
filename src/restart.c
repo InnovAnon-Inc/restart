@@ -22,7 +22,7 @@
 
 /* Private functions */
 
-__attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
+__attribute__ ((nonnull (2), nothrow, warn_unused_result))
 static int gettimeout(struct timeval end,
                                struct timeval *restrict timeoutp) {
    gettimeofday(timeoutp, NULL);
