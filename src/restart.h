@@ -40,11 +40,11 @@ ssize_t readline(int fd, char *restrict buf, size_t nbytes)
 __attribute__ ((nonnull (2), nothrow, warn_unused_result)) ;
 ssize_t readtimed(int fd, void *restrict buf, size_t nbyte, double seconds)
 __attribute__ ((nonnull (2), nothrow, warn_unused_result)) ;
-ssize_t readwrite(int fromfd, int tofd);
+ssize_t readwrite(int fromfd, int tofd)
 __attribute__ ((nothrow, warn_unused_result)) ;
 ssize_t readwriteblock(int fromfd, int tofd, char *restrict buf, size_t size)
 __attribute__ ((nonnull (3), nothrow, warn_unused_result));
-int waitfdtimed(int fd, struct timeval end);
+int waitfdtimed(int fd, struct timeval end)
 __attribute__ ((nothrow, warn_unused_result)) ;
 
 #ifdef __cplusplus
