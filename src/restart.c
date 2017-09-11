@@ -289,5 +289,4 @@ void r_sleep (unsigned int seconds) {
    if (left == 0) return;
    do left = sleep (left);
    while_check (left != 0) ;
-   return left;
 }
