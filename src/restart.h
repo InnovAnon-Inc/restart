@@ -10,6 +10,8 @@ extern "C" {
 #include <sys/time.h>
 #include <sys/types.h>
 
+#include <glitter.h>
+
 #ifndef ETIME
 #define ETIME ETIMEDOUT
 #endif
