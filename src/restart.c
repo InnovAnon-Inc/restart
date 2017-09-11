@@ -22,7 +22,7 @@
 
 /* Private functions */
 
-__attribute__ ((nonnull (2), nothrow, warn_unused_result))
+__attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
 static int gettimeout(struct timeval end,
                                struct timeval *restrict timeoutp) {
    gettimeofday(timeoutp, NULL);
@@ -46,7 +46,7 @@ static int gettimeout(struct timeval end,
 
 /* Restart versions of traditional functions */
 
-__attribute__ ((nothrow, warn_unused_result))
+__attribute__ ((leaf, nothrow, warn_unused_result))
 int r_close(int fildes) {
    int retval;
    do retval = close (fildes);
@@ -54,7 +54,7 @@ int r_close(int fildes) {
    return retval;
 }
 
-__attribute__ ((nothrow, warn_unused_result))
+__attribute__ ((leaf, nothrow, warn_unused_result))
 int r_dup2(int fildes, int fildes2) {
    int retval;
    do retval = dup2 (fildes, fildes2);
@@ -62,7 +62,7 @@ int r_dup2(int fildes, int fildes2) {
    return retval;
 }
 
-__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+__attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
 int r_open2(const char *restrict path, int oflag) {
    int retval;
    do retval = open (path, oflag);
@@ -70,7 +70,7 @@ int r_open2(const char *restrict path, int oflag) {
    return retval;
 }
 
-__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+__attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
 int r_open3(const char *restrict path, int oflag, mode_t mode) {
    int retval;
    do retval = open (path, oflag, mode);
@@ -78,7 +78,7 @@ int r_open3(const char *restrict path, int oflag, mode_t mode) {
    return retval;
 }
 
-__attribute__ ((nonnull (2), nothrow, warn_unused_result))
+__attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
 ssize_t r_read(int fd, void *restrict buf, size_t size) {
    ssize_t retval;
    do retval = read(fd, buf, size);
@@ -86,7 +86,7 @@ ssize_t r_read(int fd, void *restrict buf, size_t size) {
    return retval;
 }
 
-__attribute__ ((nonnull (1), nothrow, warn_unused_result))
+__attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
 pid_t r_wait(int *restrict stat_loc) {
    pid_t retval;
    do retval = wait (stat_loc);
@@ -94,7 +94,7 @@ pid_t r_wait(int *restrict stat_loc) {
    return retval;
 }
 
-__attribute__ ((nonnull (2), nothrow, warn_unused_result))
+__attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
 pid_t r_waitpid(pid_t pid, int *restrict stat_loc, int options) {
    pid_t retval;
    do retval = waitpid (pid, stat_loc, options);
@@ -102,7 +102,7 @@ pid_t r_waitpid(pid_t pid, int *restrict stat_loc, int options) {
    return retval;
 }
 
-__attribute__ ((nonnull (2), nothrow, warn_unused_result))
+__attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
 ssize_t r_write(int fd, void *restrict buf, size_t size) {
    char *restrict bufp;
    size_t bytestowrite;
@@ -126,7 +126,7 @@ ssize_t r_write(int fd, void *restrict buf, size_t size) {
 
 /* Utility functions */
 
-__attribute__ ((nothrow, warn_unused_result))
+__attribute__ ((leaf, nothrow, warn_unused_result))
 struct timeval add2currenttime(double seconds) {
    struct timeval newtime;
 
@@ -150,7 +150,7 @@ size_t copyfile(int fromfd, int tofd) {
    return totalbytes;
 }
 
-__attribute__ ((nonnull (2), nothrow, warn_unused_result))
+__attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
 ssize_t readblock(int fd, void *restrict buf, size_t size) {
    char *restrict bufp;
    ssize_t bytesread;
@@ -178,7 +178,7 @@ ssize_t readblock(int fd, void *restrict buf, size_t size) {
    return (ssize_t) totalbytes;
 }
 
-__attribute__ ((nonnull (2), nothrow, warn_unused_result))
+__attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
 ssize_t readline(int fd, char *restrict buf, size_t nbytes) {
    size_t numread = 0;
    ssize_t returnval;
