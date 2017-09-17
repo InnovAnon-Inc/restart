@@ -326,6 +326,6 @@ int r_sleep (unsigned int seconds) {
 	timeout.tv_usec = 0;
 
 	do ret = select (FD_SETSIZE, &set, NULL, NULL, &timeout);
-	while_echeck (ret == -1, INTR);
+	while_echeck (ret == -1, EINTR);
 	return ret; /* 0 or -1 */
 }
