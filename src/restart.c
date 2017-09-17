@@ -304,10 +304,26 @@ int waitfdtimed(fd_t fd, struct timeval end) {
    return 0;
 }
 
+/*
 __attribute__ ((leaf, nothrow))
 void r_sleep (unsigned int seconds) {
    unsigned int left = seconds;
    if (left == 0) return;
    do left = sleep (left);
    while_check (left != 0) ;
+}
+*/
+__attribute__ ((leaf, nothrow))
+void r_sleep (unsigned int seconds) {
+	fd_set set;
+	struct timeval timeout;
+
+	FD_ZERO (&set);
+	FD_SET (filedes, &set);
+
+	timeout.tv_sec  = seconds;
+	timeout.tv_usec = 0;
+
+	return TEMP_FAILURE_RETRY (select (FD_SETSIZE,
+		&set, NULL, NULL, &timeout));
 }
