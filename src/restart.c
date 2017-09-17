@@ -313,17 +313,19 @@ void r_sleep (unsigned int seconds) {
    while_check (left != 0) ;
 }
 */
-__attribute__ ((leaf, nothrow))
-void r_sleep (unsigned int seconds) {
+__attribute__ ((leaf, nothrow, warn_unused_result))
+int r_sleep (unsigned int seconds) {
 	fd_set set;
 	struct timeval timeout;
+	int ret;
 
 	FD_ZERO (&set);
-	FD_SET (filedes, &set);
+	/*FD_SET (filedes, &set);*/
 
 	timeout.tv_sec  = seconds;
 	timeout.tv_usec = 0;
 
-	return TEMP_FAILURE_RETRY (select (FD_SETSIZE,
-		&set, NULL, NULL, &timeout));
+	do ret = select (FD_SETSIZE, &set, NULL, NULL, &timeout);
+	while_echeck (ret == -1, INTR);
+	return ret; /* 0 or -1 */
 }
