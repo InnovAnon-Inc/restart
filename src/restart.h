@@ -72,7 +72,10 @@ int waitfdtimed(fd_t fd, struct timeval end)
 __attribute__ ((nothrow, warn_unused_result)) ;
 
 int r_sleep (unsigned int seconds)
-__attribute__ ((leaf, nothrow, warn_unused_result)) ;
+__attribute__ ((nothrow, warn_unused_result)) ;
+
+int r_sleept (struct timeval *restrict seconds)
+__attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result)) ;
 
 #ifdef __cplusplus
 }

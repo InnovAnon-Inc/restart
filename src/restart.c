@@ -29,7 +29,7 @@
 __attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
 int gettimeout(struct timeval end,
                struct timeval *restrict timeoutp) {
-   gettimeofday(timeoutp, NULL);
+   (void) gettimeofday(timeoutp, NULL);
    timeoutp->tv_sec = end.tv_sec - timeoutp->tv_sec;
    timeoutp->tv_usec = end.tv_usec - timeoutp->tv_usec;
    if (timeoutp->tv_usec >= MILLION) {
@@ -313,17 +313,32 @@ void r_sleep (unsigned int seconds) {
    while_check (left != 0) ;
 }
 */
-__attribute__ ((leaf, nothrow, warn_unused_result))
+__attribute__ ((nothrow, warn_unused_result))
 int r_sleep (unsigned int seconds) {
-	fd_set set;
+	/*fd_set set;*/
 	struct timeval timeout;
-	int ret;
+	/*int ret;*/
 
-	FD_ZERO (&set);
+	/*FD_ZERO (&set);*/
 	/*FD_SET (filedes, &set);*/
 
 	timeout.tv_sec  = seconds;
 	timeout.tv_usec = 0;
+
+	/*do ret = select (FD_SETSIZE, &set, NULL, NULL, &timeout);
+	while_echeck (ret == -1, EINTR);
+	return ret;*/ /* 0 or -1 */
+
+   return r_sleept (&timeout);
+}
+
+__attribute__ ((leaf, nonnull (1), nothrow, warn_unused_result))
+int r_sleept (struct timeval *restrict timeout) {
+	fd_set set;
+	int ret;
+
+	FD_ZERO (&set);
+	/*FD_SET (filedes, &set);*/
 
 	do ret = select (FD_SETSIZE, &set, NULL, NULL, &timeout);
 	while_echeck (ret == -1, EINTR);
