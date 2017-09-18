@@ -26,9 +26,9 @@
 
 /* Private functions */
 
-__attribute__ ((nonnull (2), nothrow, warn_unused_result))
-static int gettimeout(struct timeval end,
-                               struct timeval *restrict timeoutp) {
+__attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result))
+int gettimeout(struct timeval end,
+               struct timeval *restrict timeoutp) {
    gettimeofday(timeoutp, NULL);
    timeoutp->tv_sec = end.tv_sec - timeoutp->tv_sec;
    timeoutp->tv_usec = end.tv_usec - timeoutp->tv_usec;

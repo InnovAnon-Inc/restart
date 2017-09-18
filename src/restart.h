@@ -16,6 +16,10 @@ extern "C" {
 #define ETIME ETIMEDOUT
 #endif
 
+int gettimeout(struct timeval end,
+               struct timeval *restrict timeoutp)
+__attribute__ ((leaf, nonnull (2), nothrow, warn_unused_result)) ;
+
 	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Waggregate-return"
 struct timeval add2currenttime(double seconds)
