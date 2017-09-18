@@ -340,7 +340,7 @@ int r_sleept (struct timeval *restrict timeout) {
 	FD_ZERO (&set);
 	/*FD_SET (filedes, &set);*/
 
-	do ret = select (FD_SETSIZE, &set, NULL, NULL, &timeout);
+	do ret = select (FD_SETSIZE, &set, NULL, NULL, timeout);
 	while_echeck (ret == -1, EINTR);
 	return ret; /* 0 or -1 */
 }
