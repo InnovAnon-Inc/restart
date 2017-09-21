@@ -270,7 +270,7 @@ int waitfdtimed(fd_t fd, struct timeval end) {
    }
    FD_ZERO(&readset);
    TODO (ignoring error because Android refuses to cross compile otherwise)
-	#pragma GCC diagnostic push "-Wsign-conversion"
+	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wsign-conversion"
    FD_SET(fd, &readset);
 	#pragma GCC diagnostic pop
@@ -290,7 +290,7 @@ int waitfdtimed(fd_t fd, struct timeval end) {
          return -1;
       FD_ZERO(&readset);
    TODO (ignoring error because Android refuses to cross compile otherwise)
-	#pragma GCC diagnostic push "-Wsign-conversion"
+	#pragma GCC diagnostic push
 	#pragma GCC diagnostic ignored "-Wsign-conversion"
       FD_SET(fd, &readset);
 	#pragma GCC diagnostic pop
