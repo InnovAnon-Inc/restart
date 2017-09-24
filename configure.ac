@@ -9,6 +9,7 @@ AC_CONFIG_FILES([
  src/Makefile
 ])
 AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_SUBDIRS([glitter])
 
 AC_CHECK_HEADERS([errno.h fcntl.h limits.h string.h unistd.h])
 AC_CHECK_HEADERS([sys/select.h sys/time.h sys/types.h sys/wait.h])
