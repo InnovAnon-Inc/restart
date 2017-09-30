@@ -3,7 +3,7 @@ AM_CPPFLAGS = -D__STDC_INT64__
 SUBDIRS = ../glitter
 AM_CPPFLAGS += -I $(top_srcdir)/glitter/src
 
-LIBRESTART_LIBADD =
+include Makefile-LIBADD.inc
 
 lib_LTLIBRARIES = librestart.la
 include_HEADERS = restart.h
