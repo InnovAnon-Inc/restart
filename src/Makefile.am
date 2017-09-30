@@ -1,8 +1,11 @@
+LIBRESTART_LIBADD =
+
 lib_LTLIBRARIES = librestart.la
-librestart_la_SOURCES = restart.c
 include_HEADERS = restart.h
-#librestart_la_CFLAGS =
+librestart_la_LIBADD = $(LIBRESTART_LIBADD)
 
 AM_CPPFLAGS = -D__STDC_INT64__
-AM_CPPFLAGS += -I $(srcdir)/../glitter/src
+
+SUBDIRS = ../glitter
+AM_CPPFLAGS += -I ../glitter/src
 
