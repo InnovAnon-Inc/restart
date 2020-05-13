@@ -24,8 +24,9 @@ AC_CHECK_HEADERS([glitter.h])
 AC_CHECK_LIB([stdlib],[close,dup2,open,read,wait,waitpid,write])
 AC_CHECK_LIB([stdlib],[gettimeofday,select,sleep])
 
-srcdir = @srcdir@
-LIBRESTART_LIBADD="`PATH=$(srcdir)src:$PATH librestart_config --libs`"
+#srcdir = @srcdir@
+#LIBRESTART_LIBADD="`PATH=$(srcdir)src:$PATH librestart_config --libs`"
+LIBRESTART_LIBADD="`PATH=src:$PATH librestart_config --libs`"
 AC_SUBST(LIBRESTART_LIBADD)
 
 INNOVANON_WARNINGS([])
