@@ -6,7 +6,7 @@ AM_CPPFLAGS = -D__STDC_INT64__
 #endif
 
 #include Makefile-LIBADD.inc
-dist_bin_SCRIPTS = librestart_config
+#dist_bin_SCRIPTS = librestart_config
 
 lib_LTLIBRARIES = librestart.la
 include_HEADERS = restart.h
