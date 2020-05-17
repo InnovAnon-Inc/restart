@@ -1,5 +1,5 @@
 # Install the pkg-config file.
-pkgconfigdir = $(libdir)/@PACKAGE_NAME@/pkgconfig
+pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = src/restart.pc
  
 DISTCLEANFILES = $(pkgconfig_DATA)
