@@ -26,7 +26,7 @@ AC_CHECK_HEADERS([sys/select.h sys/time.h sys/types.h sys/wait.h])
 AC_CHECK_LIB([stdlib],[close,dup2,open,read,wait,waitpid,write])
 AC_CHECK_LIB([stdlib],[gettimeofday,select,sleep])
 
-PKG_CHECK_MODULES([GLITTER],[libglitter],,)
+PKG_CHECK_MODULES([GLITTER],[glitter],,)
 
 INNOVANON_WARNINGS([])
 
