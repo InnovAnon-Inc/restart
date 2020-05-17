@@ -8,7 +8,10 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([
  Makefile
  src/Makefile
+ src/restart.pc
 ])
+
+PKG_PROG_PKG_CONFIG
 
 AC_ARG_ENABLE([use-submodules],
     AS_HELP_STRING([--enable-use-submodules], [Enable use submodules]))
@@ -24,10 +27,13 @@ AC_CHECK_HEADERS([glitter.h])
 AC_CHECK_LIB([stdlib],[close,dup2,open,read,wait,waitpid,write])
 AC_CHECK_LIB([stdlib],[gettimeofday,select,sleep])
 
-#srcdir = @srcdir@
-#LIBRESTART_LIBADD="`PATH=$(srcdir)src:$PATH librestart_config --libs`"
-LIBRESTART_LIBADD="`PATH=src:$PATH librestart_config --libs`"
-AC_SUBST(LIBRESTART_LIBADD)
+##srcdir = @srcdir@
+##LIBRESTART_LIBADD="`PATH=$(srcdir)src:$PATH librestart_config --libs`"
+#LIBRESTART_LIBADD="`PATH=src:$PATH librestart_config --libs`"
+#AC_SUBST(LIBRESTART_LIBADD)
+#PKG_CHECK_MODULES(PROJECT_RESTART,,,)
+#AC_SUBST(PROJECT_RESTART_LIBS)
+#AC_SUBST(PROJECT_RESTART_CFLAGS)
 
 INNOVANON_WARNINGS([])
 

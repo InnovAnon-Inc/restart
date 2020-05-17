@@ -11,4 +11,5 @@ dist_bin_SCRIPTS = librestart_config
 lib_LTLIBRARIES = librestart.la
 include_HEADERS = restart.h
 librestart_la_SOURCES = restart.c
-librestart_la_LIBADD = @LIBRESTART_LIBADD@
+#librestart_la_LIBADD = @LIBRESTART_LIBADD@
+librestart_la_LIBADD =

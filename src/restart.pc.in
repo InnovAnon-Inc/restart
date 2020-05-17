@@ -1,0 +1,15 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+#restart_utility=restart-test
+
+Name: @PACKAGE_NAME@
+Description: restart library
+Version: @PACKAGE_VERSION@
+Libs: -L${libdir} -lrestart
+Cflags: -I${includedir}/restart
+Requires: @AX_PACKAGE_REQUIRES@
+Requires.private: @AX_PACKAGE_REQUIRES_PRIVATE@
+
