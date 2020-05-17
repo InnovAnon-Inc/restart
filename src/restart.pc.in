@@ -13,5 +13,5 @@ Libs: -L${libdir} -lrestart
 Cflags: -I${includedir}
 #Requires: @AX_PACKAGE_REQUIRES@
 #Requires.private: @AX_PACKAGE_REQUIRES_PRIVATE@
-Requires:
+Requires: glitter
 Requires.private:
