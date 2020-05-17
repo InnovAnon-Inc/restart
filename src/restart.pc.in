@@ -9,7 +9,8 @@ Name: @PACKAGE_NAME@
 Description: restart library
 Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -lrestart
-Cflags: -I${includedir}/restart
+#Cflags: -I${includedir}/restart
+Cflags: -I${includedir}
 Requires: @AX_PACKAGE_REQUIRES@
 Requires.private: @AX_PACKAGE_REQUIRES_PRIVATE@
 
