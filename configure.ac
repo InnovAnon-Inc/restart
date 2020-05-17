@@ -31,7 +31,7 @@ AC_CHECK_LIB([stdlib],[gettimeofday,select,sleep])
 ##LIBRESTART_LIBADD="`PATH=$(srcdir)src:$PATH librestart_config --libs`"
 #LIBRESTART_LIBADD="`PATH=src:$PATH librestart_config --libs`"
 #AC_SUBST(LIBRESTART_LIBADD)
-#PKG_CHECK_MODULES(librestart,,,)
+PKG_CHECK_MODULES([GLITTER],[glitter],,)
 #AC_SUBST(PROJECT_RESTART_LIBS)
 #AC_SUBST(PROJECT_RESTART_CFLAGS)
 
